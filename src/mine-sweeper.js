@@ -25,30 +25,27 @@ const { NotImplementedError } = require('../extensions/index.js');
  */
 function minesweeper(matrix) {
   let result = [];
-  let flatArr = matrix.flat();
-  if (flatArr.every(el => el === false)) {
-    result.push(flatArr.slice(0, flatArr.length / matrix.length));
-    result.push(flatArr.slice(flatArr.length / matrix.length));
-    return result;
-  } else {
-    
-    //let zeroArr = flatArr.forEach(el => el === 0);
-    for (let i = 0; i < matrix.length - 1; i++) {
-      for (let k = 0; k < 3; k++) {
-        let count = 0;
-        if (matrix[i][k - 1] && matrix[i][k - 1] === true) count++;
-        if (matrix[i][k + 1] && matrix[i][k + 1] === true) count++;
-        if (matrix[i + 1][k] && matrix[i + 1][k] === true) count++;
-        if (matrix[i + 1][k - 1] && matrix[i + 1][k - 1] === true) count++;
-        if (matrix[i + 1][k + 1] && matrix[i + 1][k + 1] === true) count++;
-        //if (matrix[i - 1][k] && matrix[i - 1][k] === true) count++;
-        //if (matrix[i - 2][k - 1] && matrix[i - 2][k - 1] === true) count++;
-        //if (matrix[i - 2][k + 1] && matrix[i - 2][k + 1] === true) count++;
-        matrix[i][k] = count;
+    for (let i = 0; i < matrix.length; i++) {
+      result.push([]);
+      for (let k = 0; k < matrix[0].length; k++) {
+        let mines = 0;
+        if (matrix[i][k - 1]) mines++;
+        if (matrix[i][k + 1]) mines++;
+        if (matrix[i - 1]) {
+          if (matrix[i - 1][k]) mines++;
+          if (matrix[i - 1][k - 1]) mines++;
+          if (matrix[i - 1][k + 1]) mines++;
+        }
+        if (matrix[i + 1]) {
+          if (matrix[i + 1][k]) mines++;
+          if (matrix[i + 1][k - 1]) mines++;
+          if (matrix[i + 1][k + 1]) mines++;
+        }
+        result[i].push(mines);
       }
     }
-    return matrix;
-  }
+    return result;
+  
 }
 
 module.exports = {
